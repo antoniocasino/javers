@@ -26,8 +26,25 @@ public class H2RepositoryFactory {
                                 }
                             }).
                             withDialect(DialectName.H2)
-                    //      .build() todo: run build the first time to create tables
-                            .build().withSchemaManager(new CustomSchemaManager());
+                    //      .build() todo: run without SchemaManager the first time to create tables
+                    .build();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static JaversSqlRepository createWithCustomSchemaManager() {
+        try {
+            Connection conn = getDBConnection();
+            return SqlRepositoryBuilder.sqlRepository().
+                    withConnectionProvider(new ConnectionProvider() {
+                        public Connection getConnection() throws SQLException {
+                            return conn;
+                        }
+                    }).
+                    withDialect(DialectName.H2)
+                            //      .build() todo: run without SchemaManager the first time to create tables
+                    .build().withSchemaManager(new CustomSchemaManager());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

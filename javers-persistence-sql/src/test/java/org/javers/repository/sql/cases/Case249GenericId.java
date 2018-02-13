@@ -1,12 +1,13 @@
 package org.javers.repository.sql.cases;
 
-import org.assertj.core.api.Assertions;
+import org.fest.assertions.api.Assertions;
 import org.javers.core.Javers;
 import org.javers.core.JaversBuilder;
 import org.javers.core.metamodel.annotation.Entity;
 import org.javers.core.metamodel.annotation.Id;
 import org.javers.core.metamodel.object.CdoSnapshot;
 import org.javers.repository.sql.H2RepositoryFactory;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.Serializable;
@@ -36,11 +37,15 @@ public class Case249GenericId {
         }
     }
 
+    @Before
+    public void shouldCreateSchema(){
+        JaversBuilder.javers().registerJaversRepository(H2RepositoryFactory.create()).build();
+    }
+
     @Test
     public void shouldCommitEntityWithSerializableId() {
         //given
-        Javers javers = JaversBuilder.javers().
-                registerJaversRepository(H2RepositoryFactory.create()).build();
+        Javers javers = JaversBuilder.javers().registerJaversRepository(H2RepositoryFactory.createWithCustomSchemaManager()).build();
 
         //when
         Account acc = new Account("1","2");
