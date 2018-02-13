@@ -1,6 +1,6 @@
 package org.javers.repository.sql.cases;
 
-import org.fest.assertions.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.javers.core.Javers;
 import org.javers.core.JaversBuilder;
 import org.javers.core.metamodel.annotation.Entity;
